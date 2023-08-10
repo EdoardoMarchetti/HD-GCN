@@ -8,6 +8,8 @@ import logging
 
 from argparse import ArgumentParser
 
+from tqdm import tqdm
+
 
 def get_raw_bodies_data(skes_path, ske_name, frames_drop_skes, frames_drop_logger):
     """
@@ -115,7 +117,7 @@ def get_raw_skes_data():
     raw_skes_data = []
     frames_cnt = np.zeros(num_files, dtype=np.int)
 
-    for (idx, ske_name) in enumerate(skes_name):
+    for (idx, ske_name) in enumerate(tqdm(skes_name)):
         bodies_data = get_raw_bodies_data(skes_path, ske_name, frames_drop_skes, frames_drop_logger)
         raw_skes_data.append(bodies_data)
         frames_cnt[idx] = bodies_data['num_frames']
@@ -145,7 +147,7 @@ if __name__ == '__main__':
     save_path = args.save_path
     
 
-    skes_path = '../nturgbd_raw/nturgb+d_skeletons/'
+    skes_path =  args.skes_path
     stat_path = osp.join(save_path, 'statistics')
     if not osp.exists(osp.join(save_path,'raw_data')):
         os.makedirs(osp.join(save_path,'raw_data'))
