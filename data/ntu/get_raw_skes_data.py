@@ -6,6 +6,8 @@ import numpy as np
 import pickle
 import logging
 
+from argparse import ArgumentParser
+
 
 def get_raw_bodies_data(skes_path, ske_name, frames_drop_skes, frames_drop_logger):
     """
@@ -132,12 +134,21 @@ def get_raw_skes_data():
         pickle.dump(frames_drop_skes, fw, pickle.HIGHEST_PROTOCOL)
 
 if __name__ == '__main__':
-    save_path = './'
+
+    parser = ArgumentParser()
+
+    parser.add_argument('--save_path', type=str, default='./')
+    parser.add_argument('--skes_path', type=str, default='../nturgbd_raw/nturgb+d_skeletons/')
+    
+    args = parser.parse_args()
+
+    save_path = args.save_path
+    
 
     skes_path = '../nturgbd_raw/nturgb+d_skeletons/'
     stat_path = osp.join(save_path, 'statistics')
-    if not osp.exists('./raw_data'):
-        os.makedirs('./raw_data')
+    if not osp.exists(osp.join(save_path,'raw_data')):
+        os.makedirs(osp.join(save_path,'raw_data'))
 
     skes_name_file = osp.join(stat_path, 'skes_available_name.txt')
     save_data_pkl = osp.join(save_path, 'raw_data', 'raw_skes_data.pkl')
